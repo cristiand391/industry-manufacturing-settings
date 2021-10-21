@@ -1,18 +1,33 @@
-# Salesforce DX Project: Next Steps
+### Create scratch org
 
-Now that you’ve created a Salesforce DX project, what’s next? Here are some documentation resources to get you started.
+`sfdx force:org:create -f config/project-scratch-def.json -s -a industry-man-set -v $DEVHUBUSERNAME --durationdays=1`
 
-## How Do You Plan to Deploy Your Changes?
+### Modify manufacturing settings in the org
+Open org:
+`sfdx force:org:open`
 
-Do you want to deploy a set of changes, or create a self-contained application? Choose a [development model](https://developer.salesforce.com/tools/vscode/en/user-guide/development-models).
+Go to Setup > Manufacturing > Enable Sales Agreement
 
-## Configure Your Salesforce DX Project
+### Retrieve settings
 
-The `sfdx-project.json` file contains useful configuration information for your project. See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm) in the _Salesforce DX Developer Guide_ for details about this file.
+```bash
+sfdx force:source:retrieve --manifest package.xml
 
-## Read All About It
+=== Retrieved Source
+FULL NAME                TYPE      PROJECT PATH
+───────────────────────  ────────  ─────────────────────────────────────────────────────────────────────────
+IndustriesManufacturing  Settings  force-app/main/default/settings/IndustriesManufacturing.settings-meta.xml
+```
 
-- [Salesforce Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
-- [Salesforce CLI Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
-- [Salesforce DX Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_intro.htm)
-- [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference.htm)
+File `IndustriesManufacturing.settings-meta.xml` should be:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<IndustriesManufacturingSettings xmlns="http://soap.sforce.com/2006/04/metadata">
+    <enableIndManufacturing>true</enableIndManufacturing>
+    <enableIndustriesMfgAccountForecast>false</enableIndustriesMfgAccountForecast>
+    <enableIndustriesMfgAdvForecast>false</enableIndustriesMfgAdvForecast>
+    <enableIndustriesMfgIAS>false</enableIndustriesMfgIAS>
+    <enableIndustriesMfgTargets>false</enableIndustriesMfgTargets>
+</IndustriesManufacturingSettings>
+```
